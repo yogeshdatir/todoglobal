@@ -3,8 +3,11 @@ from django.utils import timezone
   
 class Todo(models.Model): 
     title=models.CharField(max_length=100) 
-    details=models.TextField() 
-    date=models.DateTimeField(default=timezone.now) 
+    description=models.TextField() 
+    creation_date=models.DateTimeField(default=timezone.now) 
+    end_date=models.DateTimeField(null= True,blank=True)
+    completed=models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
   
     def __str__(self): 
         return self.title 

@@ -27,9 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'w+yhd^5f5a))!zz+33)s7j=eawkz2#j@fwa87-15q-0+cy)1d3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
 ALLOWED_HOSTS = ['my-django-react-todo-app.herokuapp.com', 'localhost',]
 
 
@@ -42,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'todos'
+    'todos',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,7 +83,9 @@ WSGI_APPLICATION = 'todoglobal.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if ON_HEROKU:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)    
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)  
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False  
 else:
     DATABASES = {
         'default': {
@@ -91,6 +93,8 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True 
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -134,4 +138,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'build/static' ,
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:8000',
 ]
