@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import dj_database_url
 import os
-import dj_database_url
 
 ON_HEROKU = os.environ.get('ON_HEROKU')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,7 +83,9 @@ WSGI_APPLICATION = 'todoglobal.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if ON_HEROKU:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)  
+    DATABASES = { 
+        'default': dj_database_url.config(default=DATABASE_URL)
+    }
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False  
 else:
