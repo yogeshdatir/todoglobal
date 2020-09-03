@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormControl, InputGroup, Form } from 'react-bootstrap'
 import axiosInstance from '../axiosInstances/axios'
+import getCookie from '../axiosInstances/getCookie'
 
 const TodoForm = ({newTodo, setNewTodo, todos, setTodos}) => {
 
@@ -11,7 +12,14 @@ const TodoForm = ({newTodo, setNewTodo, todos, setTodos}) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    axiosInstance.post("/todos/", newTodo)
+
+    const csrftoken = getCookie('csrftoken');
+
+    axiosInstance.post("/todos/", newTodo, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
       .then(res => {
         setTodos([...todos, res.data])
         setNewTodo({})
