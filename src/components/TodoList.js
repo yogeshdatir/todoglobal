@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect } from 'react'
 import axiosInstance from '../axiosInstances/axios'
+import { ListGroup } from 'react-bootstrap'
+import Todo from './Todo'
 
-const TodoList = () => {
-  const initialState = []
-  const [todos, setTodos] = useState(initialState)
+const TodoList = ({ todos, setTodos }) => {
 
   useEffect(() => {
     axiosInstance.get('/todos/')
@@ -11,16 +11,15 @@ const TodoList = () => {
         setTodos(res.data)
       })
       .catch(err => console.log(err))
-  },[])
+  }, [setTodos])
 
   return (
     <>
-      <h1>Your ToDo List</h1>
-      <ol>
+      <ListGroup variant="flush">
         {todos.map(todo => (
-          <li key={todo.id}>Title: <b>{todo.title}</b></li>
+          <Todo key={todo.id} todo={todo} />
         ))}
-      </ol>
+      </ListGroup>
     </>
   )
 }
