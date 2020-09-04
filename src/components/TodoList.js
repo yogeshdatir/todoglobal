@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
-import axiosInstance from '../axiosInstances/axios'
 import { ListGroup } from 'react-bootstrap'
 import Todo from './Todo'
+import { connect } from 'react-redux'
+import { getTodos } from '../actions/todoActions'
 
-const TodoList = ({ todos, setTodos }) => {
+const TodoList = ({ todos, getTodos }) => {
 
   useEffect(() => {
-    axiosInstance.get('/todos/')
-      .then(res => {
-        setTodos(res.data)
-      })
-      .catch(err => console.log(err))
-  }, [setTodos])
+    const test = async () => {
+      await getTodos()
+    }
+    test()
+  }, [getTodos])
 
   return (
     <>
@@ -24,4 +24,9 @@ const TodoList = ({ todos, setTodos }) => {
   )
 }
 
-export default TodoList
+const mapStateToProps = state => ({
+	// any_name: state.(reducer_name_from_root_reducer).(part_of_state)
+	todos: state.todoReducer.todos
+})
+
+export default connect(mapStateToProps, { getTodos })(TodoList)

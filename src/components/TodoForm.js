@@ -1,30 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { FormControl, InputGroup, Form } from 'react-bootstrap'
-import axiosInstance from '../axiosInstances/axios'
-import getCookie from '../axiosInstances/getCookie'
+import { connect } from 'react-redux'
+import { postTodos } from '../actions/todoActions'
 
-const TodoForm = ({newTodo, setNewTodo, todos, setTodos}) => {
+const TodoForm = ({postTodos}) => {
 
+  const [newTodo, setNewTodo] = useState({})
 
   const onChangeHandler = (e) => {
-    setNewTodo({[e.target.name]: e.target.value})
+    setNewTodo({ [e.target.name]: e.target.value })
   }
 
   const onSubmit = (e) => {
     e.preventDefault()
-
-    const csrftoken = getCookie('csrftoken');
-
-    axiosInstance.post("/todos/", newTodo, {
-      headers: {
-        'X-CSRFToken': csrftoken
-      }
-    })
-      .then(res => {
-        setTodos([...todos, res.data])
-        setNewTodo({})
-      })
-      .catch(e => console.log(e))
+    postTodos(newTodo)
+    setNewTodo("")
   }
 
   return (
@@ -42,4 +32,4 @@ const TodoForm = ({newTodo, setNewTodo, todos, setTodos}) => {
   )
 }
 
-export default TodoForm
+export default connect(null, { postTodos })(TodoForm)

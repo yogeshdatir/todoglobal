@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import TodoList from './components/TodoList';
-import TodoForm from './components/TodoForm';
-import { Container } from 'react-bootstrap';
+
+import { Provider } from 'react-redux'
+import store from './store';
+
+import { loadUser } from './actions/auth'
+
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Header from './components/common/Header';
+import PrivateRoute from './components/common/PrivateRoute';
+import Dashboard from './components/Dashboard';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 function App() {
-  const [todos, setTodos] = useState([])
-  const [newTodo, setNewTodo] = useState({})
+  // call the loadUser here
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
 
   return (
-    <Container>
-      <header>
-        <h1>To Do List</h1>
-      </header>
-      <TodoForm todos={todos} setTodos={setTodos} newTodo={newTodo} setNewTodo={setNewTodo} />
-      <TodoList todos={todos} setTodos={setTodos} />
-    </Container>
-  );
+    <Provider store={store}>
+      <Router>
+          <Header />
+            <Switch>
+              <PrivateRoute path="/" exact component={Dashboard} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/register" exact component={Register} />
+            </Switch>
+      </Router>
+    </Provider>
+  )
 }
 
 export default App;
