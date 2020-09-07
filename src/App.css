@@ -34,3 +34,21 @@ header {
   color: white;
   border: 1px solid white;
 }
+
+.delete-todo {
+  float: right;
+  padding: 4px 10px;
+  margin: 0 15px;
+  font-size: x-large;
+  transition: all 0.25s linear;
+}
+
+.delete-todo:hover { 
+  background-color: white;
+  color: red;
+  cursor: pointer;
+ }
+
+ .complete-todo {
+  text-decoration: line-through;
+ }
