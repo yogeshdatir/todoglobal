@@ -12,6 +12,7 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Dashboard from './components/Dashboard';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   // call the loadUser here
@@ -22,6 +23,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
+        <ToastContainer />
           <Header />
             <Switch>
               <PrivateRoute path="/" exact component={Dashboard} />
