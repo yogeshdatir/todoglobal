@@ -69,3 +69,19 @@ export const deleteTodo = (id) => async (dispatch, getState) => {
     })
     .catch(err => console.log(err))
 }
+
+
+export const filterTodos = (filterName, filterValue) => (dispatch, getState) => {
+  let config = tokenConfig(getState)
+  config.params = {
+    [filterName]: filterValue
+  }
+  axiosInstance.get('/todos/', config)
+    .then(res => {
+      dispatch({
+        type: GET_TODOS,
+        payload: res.data
+      })
+    })
+    .catch(err => console.log(err))
+}
