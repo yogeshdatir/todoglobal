@@ -1,4 +1,5 @@
 import axiosInstance from '../axiosInstances/axios.js'
+import axios from 'axios'
 import getCookie from '../axiosInstances/getCookie.js'
 
 import {
@@ -14,12 +15,12 @@ import {
 import { toast } from 'react-toastify'
 
 // CHECK TOKEN AND LOAD USER
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => async (dispatch, getState) => {
 	// User Loading
 	dispatch({ type: USER_LOADING })
 
-	axiosInstance
-		.get('/auth/user', tokenConfig(getState))
+	await axiosInstance
+		.get('/rest-auth/user/', tokenConfig(getState))
 		.then((res) => {
 			dispatch({
 				type: USER_LOADED,
@@ -45,7 +46,7 @@ export const login = (username, password) => (dispatch) => {
 	const body = JSON.stringify({ username, password })
 
 	axiosInstance
-		.post('/auth/login', body, config)
+		.post('/rest-auth/login/', body, config)
 		.then((res) => {
 			dispatch({
 				type: LOGIN_SUCCESS,
@@ -68,7 +69,7 @@ export const login = (username, password) => (dispatch) => {
 }
 
 // REGISTER USER
-export const register = ({ username, email, password }) => (dispatch) => {
+export const register = ({ username, email, password1, password2 }) => (dispatch) => {
 	// Headers
 	const config = {
 		headers: {
@@ -77,10 +78,10 @@ export const register = ({ username, email, password }) => (dispatch) => {
 	}
 
 	// Request Body
-	const body = JSON.stringify({ username, email, password })
+	const body = JSON.stringify({ username, email, password1, password2 })
 
 	axiosInstance
-		.post('/auth/register', body, config)
+		.post('/rest-auth/registration/', body, config)
 		.then((res) => {
 			toast.success('Registered Successfully!!!', {
 				position: "top-right",
@@ -106,7 +107,7 @@ export const register = ({ username, email, password }) => (dispatch) => {
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
 	axiosInstance
-		.post('/auth/logout', null, tokenConfig(getState))
+		.post('/rest-auth/logout/', null, tokenConfig(getState))
 		.then((res) => {
 			dispatch({
 				type: LOGOUT_SUCCESS

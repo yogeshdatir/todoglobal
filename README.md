@@ -1,3 +1,5 @@
+Django virtual env start command: .\env_name\Scripts\activate
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

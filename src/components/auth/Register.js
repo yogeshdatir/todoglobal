@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Register = ({ isAuthenticated, register }) => {
   const initialState = {
     username: '',
-    password: '',
+    password1: '',
     email: '',
     password2: ''
   }
@@ -19,15 +19,16 @@ const Register = ({ isAuthenticated, register }) => {
 
   const onSubmit = (event) => {
     event.preventDefault()
-    const { username, email, password, password2 } = userInfo
-    if (password !== password2) {
+    const { username, email, password1, password2 } = userInfo
+    if (password1 !== password2) {
       // add error handling toast here
       console.log("passwords don't match")
     } else {
       const newUser = {
         username,
         email,
-        password
+        password1,
+        password2
       }
       register(newUser)
     }
@@ -85,7 +86,7 @@ const Register = ({ isAuthenticated, register }) => {
                     className="form-control"
                     placeholder="Password"
                     required
-                    name="password"
+                    name="password1"
                     value={userInfo.password}
                     onChange={onChange}
                   />

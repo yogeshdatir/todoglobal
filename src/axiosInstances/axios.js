@@ -7,7 +7,7 @@ const url = {
 }[process.env.NODE_ENV]
 
 const axiosInstance = axios.create({
-  baseURL: url
+  baseURL: "http://localhost:8000/apis"
 })
 
 export default axiosInstance
